@@ -1,23 +1,26 @@
-%h1
-  Locations
-%p
-  You can add locations that can be shown or searched for on a page of type Location
-%table#snippets.index{ :cellspacing => "0", :border => "0", :cellpadding => "0" }
-  %thead
-    %tr
-      %th.snippet
-        Location
-      - if config['locations.use_groups?'] && !@locations.blank?
-        %th
-          Group
-      %th.modify
-        Modify
-  %tbody
-    - if @locations.length > 0
-      = render :partial => "location", :collection => @locations
-    - else
+- include_stylesheet 'admin/location'
+.outset
+  %table#snippets.index{ :cellspacing => "0", :border => "0", :cellpadding => "0" }
+    %thead
       %tr
-        %td.note{ :colspan => "2" }
-          No Locations
-%p
-  = link_to image('new-location'), new_admin_location_url
+        %th.location
+          Location
+        %th.info
+          Address
+        - if config['locations.use_groups?'] && !@locations.blank?
+          %th
+            Group
+        %th.modify
+          Modify
+    %tbody
+      - if @locations.length > 0
+        = render :partial => "location", :collection => @locations
+      - else
+        %tr
+          %td.note{ :colspan => "2" }
+            No Locations
+
+
+#actions
+  %ul
+    %li= link_to(image('plus', :alt => '') + ' New Location', new_admin_location_path)
