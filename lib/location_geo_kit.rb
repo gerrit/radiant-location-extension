@@ -15,11 +15,7 @@ module GeoKitGeocodersDefaults
   [:yahoo, :google, :geocoder_us, :geocoder_ca, :proxy_addr, :proxy_port, :proxy_user, :proxy_pass].each do |sym|
     define_method sym do
       val = Radiant::Config["geokit.geocoders.#{sym}"]
-      if val.strip.downcase.eql?("nil")
-        nil
-      else
-        val
-      end
+      val.strip.downcase.eql?("nil") ? nil : val
     end
     
     define_method "#{sym}=" do |obj|
@@ -32,11 +28,7 @@ module GeoKitGeocodersDefaults
   end
   def timeout
     val = Radiant::Config["geokit.geocoders.timeout"]
-    if val.strip.downcase.eql?("nil")
-      nil
-    else
-      val.to_i
-    end
+    val.strip.downcase.eql?("nil") ? nil : val.to_i
   end
   def timeout=(obj)
     Radiant::Config["geokit.geocoders.timeout"] = obj

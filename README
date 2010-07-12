@@ -6,12 +6,28 @@ Location is a plugin that will allow you to create relatively robust list of loc
 
 == Settings
 
-You may enable or disable visible features for editing locations by setting these options in your environment:
+You may enable or disable visible features for editing locations by setting these options in your environment using Radiant::Config or using the Settings extension:
 
-  Radiant::Config['locations.use_groups?'] = 'true'
-  Radiant::Config['locations.use_website_urls?'] = 'true'
-  Radiant::Config['locations.use_page_paths?'] = 'true'
-  Radiant::Config['locations.allow_manual_geocoding?'] = 'true'
+Key                               Default Value         Possible Values
+=========================================================================
+locations.use_groups?             false                 true/false
+locations.use_website_urls?       false                 true/false
+locations.use_page_paths?         false                 true/false
+locations.allow_manual_geocoding? false                 true/false
+
+geokit.default_formula            sphere                sphere/flat
+geokit.default_units              miles                 miles/kms
+
+geokit.geocoders.proxy_addr       nil                   [IP Address or hostname of Proxy Server]
+geokit.geocoders.proxy_port       nil                   [Port of Proxy server]
+geokit.geocoders.proxy_user       nil                   [username for Proxy]
+geokit.geocoders.proxy_pass       nil                   [password for Proxy]
+geokit.geocoders.timeout          nil                   [number in seconds]
+geokit.geocoders.yahoo            nil                   [Yahoo Geocoder API Key]
+geokit.geocoders.google           [api code]            [Google Maps API Key]
+geokit.geocoders.geocoder_us      false                 [Geocoder.us API Key]
+geokit.geocoders.geocoder_ca      false                 [Geocoder.ca API Key]
+geokit.geocoders.provider_order   'google us'           [space-separated list of geocoding services: google yahoo us ca ip]
 
 == Geokit Modifications
 

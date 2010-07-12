@@ -1,6 +1,4 @@
-# Uncomment this if you reference any of your controllers in activate
 require_dependency 'application_controller'
-require_dependency 'geo_kit/defaults'
 require_dependency 'geo_kit/mappable'
 require_dependency 'geo_kit/acts_as_mappable'
 require_dependency 'geo_kit/ip_geocode_lookup'
