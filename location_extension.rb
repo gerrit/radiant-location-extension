@@ -9,17 +9,13 @@ class LocationExtension < Radiant::Extension
   description "Radiant Location Extension"
   url "http://starkravingcoder.blogspot.com"
   
-  define_routes do |map|
-    map.namespace :admin do |admin|
-      admin.resources :locations, :member => {:remove => :get}
-    end
-  end
-  
   def activate
     ActiveRecord::Base.send :include, GeoKit::ActsAsMappable
     ActionController::Base.send :include, GeoKit::IpGeocodeLookup
     Page.send :include, LocationsTags
-    admin.tabs.add  "Locations", "/admin/locations", :after => "Pages", :visibility => [:all]
+    tab 'Content' do
+      add_item   "Locations", "/admin/locations", :after => "Pages"
+    end
     Radiant::AdminUI.class_eval do
       attr_accessor :locations
     end
