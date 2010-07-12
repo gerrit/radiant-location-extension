@@ -16,6 +16,12 @@
           %label.optional{:for=>"location_group"} Group
           = text_field "location", "group", :class => 'textbox', :maxlength => 100 
           %span.help Optional. Assigning a group allows you to show and search locations within a specific group. 
+    - Location.enabled_fields.each do |field|
+      = form.send('edit_'+field.to_s) do
+        %p.field
+          %label.optional{:for=>"location_"+field.to_s}
+            = field.to_s.humanize
+          = text_field 'location', field.to_s, :class=>'textbox', :maxlength=>100
     - form.edit_website_url do
       - if config['locations.use_website_urls?']
         %p.urls

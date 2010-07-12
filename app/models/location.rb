@@ -9,6 +9,19 @@ class Location < ActiveRecord::Base
   default_scope :order => 'name'
   
   after_save :clear_page_cache
+  
+  def self.optional_fields
+    [:tel, :email, :street_address, :postal_code, :locality, :region, :country_name]
+  end
+  
+  def self.enabled_fields
+    optional_fields
+  end
+  
+  def full_address
+    self[:full_address] || "#{street_address} #{postal_code} #{locality} #{country_name}"
+  end
+  
   private
   def geocode_address
     unless self.manual_geocode
