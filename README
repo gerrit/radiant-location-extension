@@ -10,9 +10,8 @@ You may enable or disable visible features for editing locations by setting thes
 
 Key                               Default Value         Possible Values
 =========================================================================
-locations.use_groups?             false                 true/false
-locations.use_website_urls?       false                 true/false
-locations.use_page_paths?         false                 true/false
+locations.fields                  'group tel email website_url page_path street_address postal_code locality region country_name'
+
 locations.allow_manual_geocoding? false                 true/false
 
 geokit.default_formula            sphere                sphere/flat

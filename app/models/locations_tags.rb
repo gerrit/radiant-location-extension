@@ -64,7 +64,7 @@ module LocationsTags
     tag.expand if tag.locals.location
   end
   
-  [:full_address, :group, :website_url, :name, :lat, :lng].each do |method|
+  ([:full_address, :name, :lat, :lng] + Location.optional_fields).each do |method|
     desc %{ returns the #{method} attribute of the current Location}
     tag("location:#{method.to_s}") do |tag|
       tag.locals.location.send(method)

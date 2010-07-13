@@ -10,12 +10,25 @@ class Location < ActiveRecord::Base
   
   after_save :clear_page_cache
   
+  def self.help
+    {
+      :page_path => 'Associate a page on your site with this location. Example: /locations/office',
+      :group =>  'Assigning a group allows you to show and search locations within a specific group.'
+    }
+  end
+  
   def self.optional_fields
-    [:tel, :email, :street_address, :postal_code, :locality, :region, :country_name]
+    [:group, :tel, :email, :website_url, :page_path, :street_address, :postal_code, :locality, :region, :country_name]
+  end
+  
+  def self.enabled?(field)
+    enabled_fields.include?(field)
   end
   
   def self.enabled_fields
-    optional_fields
+    config = Radiant::Config['locations.fields']
+    chosen = config && config.split(',').collect(&:strip).collect(&:to_sym)
+    chosen || optional_fields
   end
   
   def full_address

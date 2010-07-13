@@ -10,37 +10,23 @@
         %label{:for=>"location_full_address"} Full Address
         = text_area "location", "full_address", :class => 'textbox', :size => '30x3' 
         %span.help Required. The address is used for determining the latitude and longitude for searching and showing on the map. the preferred format is: "123 1 Ave, MyCity, AB, Canada, T0M 0R0"
-    - form.edit_group do
-      - if config['locations.use_groups?']
-        %p.groups
-          %label.optional{:for=>"location_group"} Group
-          = text_field "location", "group", :class => 'textbox', :maxlength => 100 
-          %span.help Optional. Assigning a group allows you to show and search locations within a specific group. 
-    - Location.enabled_fields.each do |field|
-      = form.send('edit_'+field.to_s) do
-        %p.field
-          %label.optional{:for=>"location_"+field.to_s}
-            = field.to_s.humanize
-          = text_field 'location', field.to_s, :class=>'textbox', :maxlength=>100
-    - form.edit_website_url do
-      - if config['locations.use_website_urls?']
-        %p.urls
-          %label.optional{:for=>"location_website_url"} Website URL
-          = text_field "location", "website_url", :class => 'textbox', :maxlength => 100 
-          %span.help Optional.
-    - form.edit_page_path do
-      - if config['locations.use_page_paths?']
-        %p.page_path
-          %label.optional{:for=>"location_page_path"} Page path
-          = text_field "location", "page_path", :class => 'textbox', :maxlength => 100 
-          %span.help Optional. Associate a page on your site with this location. Example: /locations/office
+    - Location.optional_fields.each do |field|
+      - form.send('edit_'+field.to_s) do
+        - if Location.enabled?(field)
+          %p{:class=>field.to_s}
+            %label.optional{:for=>"location_"+field.to_s}
+              = field.to_s.humanize
+            = text_field 'location', field.to_s, :class=>'textbox', :maxlength=>100, :size=>20
+            - if Location.help[field]
+              %span.help
+                = Location.help[field]
     - form.edit_geocode do
       - if config['locations.allow_manual_geocoding?']
         %p.geocode
           %label{:for=>"location_latitude"} Latitude
-          = text_field "location", "lat", :class => 'textbox', :maxlength => 100 
+          = text_field "location", "lat", :class => 'textbox', :maxlength => 100, :size=>10
           %label{:for=>"location_longitude"} Longitude
-          = text_field "location", "lng", :class => 'textbox', :maxlength => 100 
+          = text_field "location", "lng", :class => 'textbox', :maxlength => 100, :size=>10
           %label
           = check_box  "location", "manual_geocode" 
           Manually Geocode this Location
