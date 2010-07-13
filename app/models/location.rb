@@ -31,6 +31,10 @@ class Location < ActiveRecord::Base
     chosen || optional_fields
   end
   
+  def page
+    page_path? && Page.find_by_url(page_path)
+  end
+  
   def full_address
     self[:full_address] || "#{street_address} #{postal_code} #{locality} #{country_name}"
   end

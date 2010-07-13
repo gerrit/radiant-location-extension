@@ -73,20 +73,16 @@ module LocationsTags
 
   desc %{Allows you to use page tags (such as <r:slug>, <r:title>, etc.) for the page associated with the location.}
   tag "location:page" do |tag|
-    if tag.locals.location.page_path?
-      tag.locals.page = Page.find_by_url tag.locals.location.page_path
+    if tag.locals.location.page
+      tag.locals.page = tag.locals.location.page
       tag.expand
     end
   end
   tag "location:unless_page" do |tag|
-    unless Page.find_by_url tag.locals.location.page_path
-      tag.expand
-    end
+    tag.expand unless tag.locals.location.page
   end
   tag "location:if_page" do |tag|
-    if Page.find_by_url tag.locals.location.page_path
-      tag.expand
-    end
+    tag.expand if tag.locals.location.page
   end
   # tag "location:map" do |tag| 
   #   #content = '<script type="text/javascript" src="http://www.google.com/jsapi?key=#{Radiant::Config['geokit.geocoders.google']}"></script>'
