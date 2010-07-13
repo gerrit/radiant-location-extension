@@ -9,17 +9,20 @@
     mapTypeId: google.maps.MapTypeId.ROADMAP
   });
   
-  var locations = <%= Location.json_coords %>;
+  var locations = <%= @locations.to_json %>;
   var bounds = new google.maps.LatLngBounds();
-  var coords;
-  $H(locations).each(function(pair) {
-    coords = new google.maps.LatLng(pair.value.lat, pair.value.lng);
+  var visitLocation = function(id) {
+    return function() {location.href = location.href+'/'+id}
+  }
+  locations.each(function(loc) {
+    var coords = new google.maps.LatLng(loc.lat, loc.lng);
     bounds.extend(coords);
-    new google.maps.Marker({
+    var marker = new google.maps.Marker({
       position: coords,
       map: map, 
-      title: pair.key
+      title: loc.name
     });
+    google.maps.event.addListener(marker, 'click', visitLocation(loc.id));    
   });
   map.fitBounds(bounds);
   
