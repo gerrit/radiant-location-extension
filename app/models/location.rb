@@ -38,7 +38,7 @@ class Location < ActiveRecord::Base
     self[:full_address].blank? ? composed_address : self[:full_address]
   end
   
-  private
+private
   def geocode_address
     unless self.manual_geocode
       geo=GeoKit::Geocoders::MultiGeocoder.geocode self.full_address
@@ -50,4 +50,5 @@ class Location < ActiveRecord::Base
   def clear_page_cache
     Radiant::Cache.clear
   end
+  
 end

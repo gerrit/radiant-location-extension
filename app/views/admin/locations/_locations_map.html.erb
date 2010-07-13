@@ -1,0 +1,31 @@
+<%- unless @locations.empty? -%>
+<%- include_javascript 'http://maps.google.com/maps/api/js?sensor=false&stupid_rails_helper' -%>
+<div id="map_canvas"></div>
+<script type="text/javascript">
+  var london = new google.maps.LatLng(51.514, -0.137);
+  var map = new google.maps.Map(document.getElementById("map_canvas"), {
+    zoom: 8,
+    center: london,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+  
+  var locations = <%= @locations.to_json %>;
+  var bounds = new google.maps.LatLngBounds();
+  var visitLocation = function(id) {
+    return function() {location.href = location.href+'/'+id}
+  }
+  locations.each(function(loc) {
+    var coords = new google.maps.LatLng(loc.lat, loc.lng);
+    bounds.extend(coords);
+    var marker = new google.maps.Marker({
+      position: coords,
+      map: map, 
+      title: loc.name
+    });
+    google.maps.event.addListener(marker, 'click', visitLocation(loc.id));    
+  });
+  map.fitBounds(bounds);
+  
+</script>
+<%- end -%>
+
