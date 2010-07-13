@@ -9,6 +9,19 @@ class Location < ActiveRecord::Base
   default_scope :order => 'name'
   
   after_save :clear_page_cache
+  
+  # Returns json object in the form
+  # {"location_name1":{"lat":0.1,"lng":0.2}, "location_name2":{"lat":0.2,"lng":0.4}}
+  def self.json_coords
+    all.inject({}) do |hash, location|
+      unless location.lat.blank? || location.lng.blank?
+        hash.tap{|h| h[location.name] = {
+          :lat=>location.lat, :lng=>location.lng
+        }}
+      end
+    end.to_json
+  end
+  
   private
   def geocode_address
     unless self.manual_geocode
@@ -21,4 +34,5 @@ class Location < ActiveRecord::Base
   def clear_page_cache
     Radiant::Cache.clear
   end
+  
 end
