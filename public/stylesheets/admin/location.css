@@ -17,3 +17,43 @@ table.index .node .location-title a:hover {
   color: #06c;
   text-decoration: underline;
 }
+
+/*like #tab-control from radiant stylesheet*/
+form#edit_page #location .pane {
+  background: #F5F1E2 url(/images/admin/vertical_tan_gradient.png) repeat-x 0% 0%;
+  padding: 12px 20px;
+  color: #333;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.148438) 2px 2px 3px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.148438) 2px 2px 3px;
+  -box-shadow: rgba(0, 0, 0, 0.148438) 2px 2px 3px;
+}
+
+form#edit_page #location {
+  margin-bottom: 2em;
+}
+
+form#edit_page #location .tab {
+  background-color: #CAC8C0;
+  color: #7F7F7F;
+  border-top-left-radius: 6px 6px;
+  border-top-right-radius: 6px 6px;
+  display: inline-block;
+  font-weight: bold;
+  text-align: left;
+  font-size: 90%;
+  margin-right: 5px;
+  padding: 7px 10px 4px; text-decoration: none; text-transform: titlecase; outline: none; -moz-outline: none;
+}
+
+form#edit_page #location .tab.here {
+  background-color: white;
+  color: black;
+}
+
+#content form#edit_page #location label {
+  text-shadow: none;
+  display: inline-block;
+  vertical-align: middle;
+  color: #333;
+  width: 8em;
+}

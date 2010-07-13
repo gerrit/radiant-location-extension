@@ -1,0 +1,35 @@
+- include_stylesheet 'admin/location'
+- include_javascript 'admin/location'
+
+- if @page.is_a?(LocationPage)
+  - @page.location || @page.build_location
+  - fields_for(:page, @page) do |page_form|
+    - page_form.fields_for(:location) do |location_fields|
+      %div#location
+        %div.tabs
+          %a#tab_address.tab.here{:href=>'#location_fields'} Address
+          %a#tab_geocode.tab{:href=>'#location_geocode'} Geocode
+        %div#location_fields.pane
+          = location_fields.hidden_field 'lock_version'
+          - Location.optional_fields.each do |field|
+            - if Location.enabled?(field)
+              %p{:class=>field.to_s}
+                = location_fields.label field, field.to_s.humanize, :class=>'optional'
+                = location_fields.text_field field, :class=>'textbox', :maxlength=>100, :size=>20
+                - if Location.help[field]
+                  %span.help
+                    = Location.help[field]
+        %div#location_geocode.pane{:style=>'display:none'}
+          %p.address
+            = location_fields.label :full_address
+            = location_fields.text_area :full_address, :class => 'textbox', :size => '30x3' 
+            %span.help Required. The address is used for determining the latitude and longitude for searching and showing on the map. the preferred format is: "123 1 Ave, MyCity, AB, Canada, T0M 0R0"
+          - if config['locations.allow_manual_geocoding?']
+            %p.geocode
+              = location_fields.check_box  :manual_geocode
+              = location_fields.label :manual_geocode, 'Manually Geocode this Location'
+              = location_fields.label :lat, 'Latitude'
+              = location_fields.text_field :lat, :class => 'textbox', :maxlength => 100, :size=>10
+              = location_fields.label :lng, 'Longitude'
+              = location_fields.text_field :lng, :class => 'textbox', :maxlength => 100, :size=>10
+              %span.help Auto-generated. Required if 'Manually Geocode this Location' is selected. The latitude and longitude are typically geocoded automatically. However some locations (particularly rural locations) cannot be easily geocoded. If you choose "manual geocoding" you will be able to set the latitude and longitude manually.

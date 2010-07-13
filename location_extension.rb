@@ -12,7 +12,12 @@ class LocationExtension < Radiant::Extension
   def activate
     ActiveRecord::Base.send :include, GeoKit::ActsAsMappable
     ActionController::Base.send :include, GeoKit::IpGeocodeLookup
-    Page.send :include, LocationsTags
+    Page.class_eval do
+      include LocationsTags
+    end
+    LocationFinderPage
+    LocationPage
+    
     tab 'Content' do
       add_item   "Locations", "/admin/locations", :after => "Pages"
     end
@@ -20,7 +25,7 @@ class LocationExtension < Radiant::Extension
       attr_accessor :locations
     end
     admin.locations = load_default_location_regions
-    LocationFinderPage
+    admin.page.edit.add(:form, 'location_page', :after => 'edit_extended_metadata')
   end
   
   def deactivate

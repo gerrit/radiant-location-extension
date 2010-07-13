@@ -2,6 +2,7 @@ class Location < ActiveRecord::Base
   # Associations
   belongs_to :created_by, :class_name => 'User'
   belongs_to :updated_by, :class_name => 'User'
+  belongs_to :page
 
   acts_as_mappable :default_units => :kms
   before_validation :geocode_address
@@ -11,14 +12,11 @@ class Location < ActiveRecord::Base
   after_save :clear_page_cache
   
   def self.help
-    {
-      :page_path => 'Associate a page on your site with this location. Example: /locations/office',
-      :group =>  'Assigning a group allows you to show and search locations within a specific group.'
-    }
+    {:group =>  'Assigning a group allows you to show and search locations within a specific group.'}
   end
   
   def self.optional_fields
-    [:group, :tel, :email, :website_url, :page_path, :street_address, :postal_code, :locality, :region, :country_name]
+    [:group, :tel, :email, :website_url, :street_address, :postal_code, :locality, :region, :country_name]
   end
   
   def self.enabled?(field)
@@ -31,12 +29,13 @@ class Location < ActiveRecord::Base
     chosen || optional_fields
   end
   
-  def page
-    page_path? && Page.find_by_url(page_path)
+  def name
+    self[:name].blank? ? page && page.title : self[:name]
   end
   
   def full_address
-    self[:full_address] || "#{street_address} #{postal_code} #{locality} #{country_name}"
+    composed_address = "#{street_address} #{postal_code} #{locality} #{country_name}"
+    self[:full_address].blank? ? composed_address : self[:full_address]
   end
   
   private
