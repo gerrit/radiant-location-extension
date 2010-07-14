@@ -2,7 +2,7 @@
 - include_javascript 'admin/location'
 
 - if @page.is_a?(LocationPage)
-  - @page.location || @page.build_location
+  - @page.location || @page.create_location
   - fields_for(:page, @page) do |page_form|
     - page_form.fields_for(:location) do |location_fields|
       %div#location
