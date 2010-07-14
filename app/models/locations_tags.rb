@@ -57,9 +57,17 @@ module LocationsTags
   tag "locations:each:location" do |tag| 
     tag.expand if tag.locals.location
   end
+  
+  desc %{
+    Accessor for a location. 
+    When on a LocationPage, this defaults to the location that belongs to the page
+    When given the optional +id+ parameter, it will use that Location instead
+  }
   tag "location" do |tag|
-    unless tag.attr["id"].blank?
+    if tag.attr["id"].present?
       tag.locals.location = Location.find(tag.attr["id"].to_i)
+    elsif tag.locals.page.respond_to?(:location) && tag.locals.page.location
+      tag.locals.location = tag.locals.page.location
     end
     tag.expand if tag.locals.location
   end
