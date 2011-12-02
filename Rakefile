@@ -1,5 +1,6 @@
 #!/usr/bin/env rake
-require 'rake/rdoctask'
+require 'bundler/gem_tasks'
+require 'rdoc/task'
 
 desc 'Generate documentation for the location extension.'
 Rake::RDocTask.new(:rdoc) do |rdoc|

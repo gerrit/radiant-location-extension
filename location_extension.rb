@@ -4,10 +4,12 @@ require_dependency 'geo_kit/acts_as_mappable'
 require_dependency 'geo_kit/ip_geocode_lookup'
 require_dependency 'location_geo_kit'
 
+require 'radiant-location-extension/version'
+
 class LocationExtension < Radiant::Extension
-  version "1.1"
-  description "Radiant Location Extension"
-  url "http://starkravingcoder.blogspot.com"
+  version RadiantLocationExtension::VERSION
+  description 'Radiant Location Extension'
+  url 'https://github.com/adsmart/radiant-location-extension'
   
   def activate
     ActiveRecord::Base.send :include, GeoKit::ActsAsMappable
