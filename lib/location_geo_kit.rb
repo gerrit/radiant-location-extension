@@ -1,7 +1,8 @@
 module GeoKitDefaults
   [:default_units, :default_formula].each do |sym|
     define_method sym do
-      Radiant::Config["geokit.#{sym}"].to_sym
+      value = Radiant::Config["geokit.#{sym}"]
+      value && value.to_sym
     end
     
     define_method "#{sym}=" do |obj|
